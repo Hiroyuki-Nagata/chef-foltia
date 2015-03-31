@@ -16,6 +16,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    # use chef_solo
    config.vm.provision "chef_solo" do |chef|
       chef.cookbooks_path = ["./cookbooks", "./site-cookbooks"]
-      chef.add_recipe 'foltia_cookbook::default'
+      chef.run_list = [
+                       "recipe[yum]",
+                       "recipe[apache2]",
+                       "recipe[apache2::mod_php5]",
+                       "recipe[apache2::mod_rewrite]",
+                       "recipe[php]",
+                       # "recipe[perl]", <-- can"t work well
+                       "recipe[git]"
+                      ]
+      # chef.add_recipe 'foltia_cookbook::default'
    end
 end

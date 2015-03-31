@@ -6,5 +6,6 @@ foltiaのインストール用cookbook
 ```
 $ vagrant plugin install vagrant-berkshelf  
 $ cd chef-foltia  
+$ berks vendor cookbooks  
 $ vagrant up  
 ```
