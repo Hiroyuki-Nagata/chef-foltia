@@ -9,6 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    # Every Vagrant virtual environment requires a box to build off of.
    config.vm.box     = "fedora-20"
    config.vm.box_url = "https://dl.dropboxusercontent.com/u/15733306/vagrant/fedora-20-netinst-2014_01_05-minimal-puppet-guestadditions.box"
+   config.vm.network "private_network", ip: "192.168.33.10"
    config.omnibus.chef_version = :latest
    config.berkshelf.enabled = true
 
