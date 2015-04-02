@@ -1,4 +1,4 @@
-name             'foltia_cookbook'
+name             'foltia'
 maintainer       'YOUR_COMPANY_NAME'
 maintainer_email 'YOUR_EMAIL'
 license          'All rights reserved'
