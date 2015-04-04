@@ -17,6 +17,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.vm.provision "chef_solo" do |chef|
       chef.cookbooks_path = ["./cookbooks", "./site-cookbooks"]
       chef.run_list = [
+                       "recipe[selinux::disabled]",
+                       "recipe[simple_iptables]",
                        "recipe[yum]",
                        "recipe[apache2]",
                        "recipe[apache2::mod_php5]",
@@ -26,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                        "recipe[git]"
                       ]
       # original cookbook
-      chef.add_recipe 'foltia::default'
+      chef.add_recipe "foltia::iptables"
+      chef.add_recipe "foltia::default"
    end
 end

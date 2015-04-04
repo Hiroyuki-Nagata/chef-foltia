@@ -7,15 +7,26 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# start httpd
-service "httpd" do
-   action [ :enable, :start ]
+# add user 'foltia', password is also 'foltia'
+user "foltia" do
+  password "$1$wboElf8A$467sbApDxc2i.p6bpWYK3."
+  supports :manage_home => true
+  action :create
 end
 
-# need to install
+group "wheel" do
+  action [:modify]
+  members ["foltia"]
+  append true
+end
+
+# Perl/PHP need to install
 package ['perl-ExtUtils-Manifest',
          'perl-ExtUtils-ParseXS',
-         'perl-Module-Build']
+         'perl-Module-Build',
+         'php-pear', 
+         'php-mbstring', 
+         'php-pdo']
 
 include_recipe 'cpan::bootstrap'
 
@@ -31,4 +42,26 @@ include_recipe 'cpan::bootstrap'
     user 'root'
     group 'root'
    end
+end
+
+# stop unused service
+%w{
+  firewalld
+}.each do |serv|
+service "#{serv}" do
+   action [ :enable, :stop ]
+   end
+end
+
+# clone from github
+git "/home/foltia" do
+  repository "https://github.com/Hiroyuki-Nagata/foltia.git"
+  revision "master"
+  user "foltia"
+  action :sync
+end
+
+# start httpd
+service "httpd" do
+   action [ :enable, :start ]
 end
