@@ -54,11 +54,15 @@ service "#{serv}" do
 end
 
 # clone from github
-git "/home/foltia" do
-  repository "https://github.com/Hiroyuki-Nagata/foltia.git"
-  revision "master"
-  user "foltia"
-  action :sync
+include_recipe 'git::default'
+
+# chef git won't checkout foltia if 
+# 'git "/home/foltia/" do'
+git "/home/foltia/foltia" do
+   repository "https://github.com/Hiroyuki-Nagata/foltia.git"
+   reference "master"
+   action :sync
+   user "foltia"
 end
 
 # start httpd
