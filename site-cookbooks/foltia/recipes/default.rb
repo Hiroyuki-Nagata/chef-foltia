@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: foltia
 # Recipe:: default
@@ -6,6 +7,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+include_recipe 'apache2'
+include_recipe 'git::default'
 
 # add user 'foltia', password is also 'foltia'
 user "foltia" do
@@ -53,9 +57,6 @@ service "#{serv}" do
    end
 end
 
-# clone from github
-include_recipe 'git::default'
-
 # chef git won't checkout foltia if 
 # 'git "/home/foltia/" do'
 git "/home/foltia/foltia" do
@@ -63,6 +64,27 @@ git "/home/foltia/foltia" do
    reference "master"
    action :sync
    user "foltia"
+end
+
+# PHP/Perl need permission
+%w{
+  /home/foltia/foltia/install/php
+  /home/foltia/foltia/install/perl
+}.each do |dir|
+   directory "#{dir}" do
+      mode '0755'
+      action :nothing
+      owner "foltia"
+      group "foltia"
+   end
+end
+
+# add config
+web_app "foltia" do
+   docroot "/var/www/html"
+   template "foltia.conf.erb"
+   server_name node[:fqdn]
+   server_aliases [node[:hostname], "foltia"]
 end
 
 # start httpd
