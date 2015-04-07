@@ -1,4 +1,24 @@
-Alias /foltia/ "/home/foltia/foltia/install/php/"
+<VirtualHost *:<%= @params[:server_port] || node['apache']['listen_ports'].first %>>
+  
+  #ServerName <%= @params[:server_name] %>
+  DocumentRoot <%= @params[:docroot] %>
+  DirectoryIndex index.php index.html
+
+  AddType application/x-httpd-php .php
+  AddType application/x-httpd-php-source .phps
+
+  <Directory <%= @params[:docroot] %>>
+    Options <%= [@params[:directory_options] || "FollowSymLinks" ].flatten.join " " %>
+    AllowOverride <%= [@params[:allow_override] || "None" ].flatten.join " " %>
+  <% if node['apache']['version'] == '2.4' -%>
+    Require all granted
+  <% else -%>
+    Order allow,deny
+    Allow from all
+  <% end -%>
+  </Directory>
+
+</VirtualHost>
 
 # <VirtualHost *:<%= @params[:server_port] || node['apache']['listen_ports'].first %>>
 #   ServerName <%= @params[:server_name] %>

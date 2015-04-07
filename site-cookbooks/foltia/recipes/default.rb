@@ -66,23 +66,20 @@ git "/home/foltia/foltia" do
    user "foltia"
 end
 
-# PHP/Perl need permission
-%w{
-  /home/foltia/foltia/install/php
-  /home/foltia/foltia/install/perl
-}.each do |dir|
-   directory "#{dir}" do
-      mode '0755'
-      action :nothing
-      owner "foltia"
-      group "foltia"
-   end
+# PHP/Perl need permission FIXME: nasty permission
+execute "chmod_for_/home/foltia/" do
+   command "echo 'chmod & chown'; chmod -R 755 /home/foltia/; chown -R foltia. /home/foltia/"
+end
+execute "simlink_for_/home/foltia/" do
+   command "echo 'create simlink'; ln -s /home/foltia/foltia/install/php /var/www/html/foltia"
 end
 
 # add config
 web_app "foltia" do
+   server_port "80"
    docroot "/var/www/html"
    template "foltia.conf.erb"
+   allow_override "All"
    server_name node[:fqdn]
    server_aliases [node[:hostname], "foltia"]
 end

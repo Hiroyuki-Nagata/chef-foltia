@@ -22,11 +22,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                        "recipe[yum]",
                        "recipe[apache2]",
                        "recipe[apache2::mod_php5]",
-                       "recipe[apache2::mod_rewrite]",
                        "recipe[php]",
                        "recipe[cpan]",
                        "recipe[git]"
                       ]
+
+      # apache2
+      chef.json = {
+         :apache => {
+            :default_site_enabled => true
+         }
+      }
+
       # original cookbook
       chef.add_recipe "foltia::iptables"
       chef.add_recipe "foltia::default"
