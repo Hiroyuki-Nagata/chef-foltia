@@ -6,5 +6,6 @@ cookbook "apache2"
 cookbook "git"
 cookbook "cpan"
 cookbook "simple_iptables"
+cookbook "sqlite"
 
 cookbook "foltia",  path: "./site-cookbooks/foltia"

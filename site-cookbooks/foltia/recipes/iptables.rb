@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+#
+# Cookbook Name:: foltia
+# Recipe:: iptables
+#
+# Copyright 2015, Hiroyuki Nagata
+#
+# All rights reserved - Do Not Redistribute
+#
+
 # Reject packets other than those explicitly allowed
 simple_iptables_policy "INPUT" do
   policy "DROP"

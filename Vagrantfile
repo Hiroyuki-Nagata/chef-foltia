@@ -24,7 +24,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                        "recipe[apache2::mod_php5]",
                        "recipe[php]",
                        "recipe[cpan]",
-                       "recipe[git]"
+                       "recipe[git]",
+                       "recipe[sqlite]"
                       ]
 
       # apache2
@@ -37,5 +38,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # original cookbook
       chef.add_recipe "foltia::iptables"
       chef.add_recipe "foltia::default"
+      chef.add_recipe "foltia::foltia"
    end
 end

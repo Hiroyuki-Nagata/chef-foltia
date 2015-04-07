@@ -38,7 +38,9 @@ include_recipe 'cpan::bootstrap'
   Time::HiRes
   LWP
   DBI
+  DBD::SQLite
   Schedule::At
+  Jcode
 }.each do |mod|
    cpan_client "#{mod}" do
     action 'install'
@@ -72,6 +74,7 @@ execute "chmod_for_/home/foltia/" do
 end
 execute "simlink_for_/home/foltia/" do
    command "echo 'create simlink'; ln -s /home/foltia/foltia/install/php /var/www/html/foltia"
+   not_if { ::File.exists?("/var/www/html/foltia")}
 end
 
 # add config
