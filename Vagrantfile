@@ -39,5 +39,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe "foltia::iptables"
       chef.add_recipe "foltia::default"
       chef.add_recipe "foltia::foltia"
+      chef.add_recipe "foltia::firmware"
    end
 end
