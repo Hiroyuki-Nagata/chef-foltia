@@ -25,3 +25,7 @@ end
 execute "fetch calendar" do
    command "echo 'fetch calendar'; perl /home/foltia/foltia/install/perl/getxml2db.pl long"
 end
+
+# install npm & bower
+include_recipe "nodejs::nodejs_from_package"
+nodejs_npm "bower"

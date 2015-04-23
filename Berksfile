@@ -8,5 +8,6 @@ cookbook "mercurial"
 cookbook "cpan"
 cookbook "simple_iptables"
 cookbook "sqlite"
+cookbook "nodejs"
 
 cookbook "foltia",  path: "./site-cookbooks/foltia"
