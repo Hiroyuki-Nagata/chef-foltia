@@ -1,0 +1,17 @@
+{
+    "run_list" : [
+        "recipe[selinux::disabled]",
+        "recipe[simple_iptables]",
+        "recipe[yum]",
+        "recipe[apache2]",
+        "recipe[apache2::mod_php5]",
+        "recipe[php]",
+        "recipe[perl]",
+        "recipe[git]",
+        "recipe[sqlite]",
+	"foltia::iptables",
+	"foltia::default",
+	"foltia::foltia",
+	"foltia::firmware"
+    ]
+}
