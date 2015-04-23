@@ -2,7 +2,7 @@
   
 アニメ録画用ソフトウェアfoltiaのインストール用cookbook  
   
-# Install on Vagrant
+# Install with Vagrant
 ```
 $ vagrant plugin install vagrant-berkshelf  
 $ vagrant plugin install vagrant-omnibus
@@ -10,8 +10,8 @@ $ cd chef-foltia
 $ vagrant up  
 ```
 
-# Install on chef-solo
-- first, you should install `chef-dk`
+# Install with chef-solo
+- First, you should install `chef-dk` from `https://downloads.chef.io/chef-dk/`
 ```
 $ berks install
 $ berks update

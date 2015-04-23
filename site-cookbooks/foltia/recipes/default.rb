@@ -25,12 +25,18 @@ group "wheel" do
 end
 
 # Perl/PHP need to install
-package ['perl-ExtUtils-Manifest',
-         'perl-ExtUtils-ParseXS',
-         'perl-Module-Build',
-         'php-pear', 
-         'php-mbstring', 
-         'php-pdo']
+%w{
+  perl-ExtUtils-Manifest
+  perl-ExtUtils-ParseXS
+  perl-Module-Build
+  php-pear 
+  php-mbstring 
+  php-pdo
+}.each do |p|
+  package p do
+    action :install
+  end
+end
 
 include_recipe 'cpan::bootstrap'
 
