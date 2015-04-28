@@ -35,5 +35,6 @@ nodejs_npm "bower"
 
 # install bower
 execute "update bower" do
+   user "foltia"
    command "cd /home/foltia/foltia/install && bower install"
 end
