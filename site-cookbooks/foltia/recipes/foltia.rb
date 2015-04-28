@@ -17,8 +17,11 @@ execute "edit foltia config file" do
 end
 
 # make sqlite3 table
-execute "make sqlite3 table" do
-   command "echo 'make sqlite3 table'; sqlite3 /home/foltia/foltia.sqlite < /home/foltia/foltia/install/mktable.sqlite.txt"
+execute "make sqlite3 table #1" do
+   command "echo 'make sqlite3 table'; sqlite3 /home/foltia/foltia.sqlite < /home/foltia/foltia/install/mktable.sqlite.sql"
+end
+execute "make sqlite3 table #2" do
+   command "echo 'make sqlite3 table'; sqlite3 /home/foltia/foltia.sqlite < /home/foltia/foltia/install/mktable_foltia_station.sql"
 end
 
 # fetch calendar
@@ -29,3 +32,8 @@ end
 # install npm & bower
 include_recipe "nodejs::nodejs_from_package"
 nodejs_npm "bower"
+
+# install bower
+execute "update bower" do
+   command "cd /home/foltia/foltia/install && bower install"
+end
