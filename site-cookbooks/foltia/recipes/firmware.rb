@@ -67,5 +67,8 @@ bash 'install_pt2' do
     make clean all
     make install
     modprobe pt1_drv
+    echo "blacklist earth-pt1" >> /etc/modprobe.d/blacklist.conf                         
+    echo "" >> /home/foltia/.bashrc                                                      
+    echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> /home/foltia/.bashrc
   EOC
 end
