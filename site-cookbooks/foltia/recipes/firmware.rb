@@ -29,46 +29,56 @@ service 'pcscd' do
   action [:enable, :start]
 end
 
-# recpt1
-git "/usr/local/src/recpt1" do
-   repository "https://github.com/stz2012/recpt1.git"
-   reference "master"
-   action :sync
-   user "root"
-end
-# arib25
-git "/usr/local/src/libarib25" do
-   repository "https://github.com/stz2012/libarib25.git"
-   reference "master"
-   action :sync
-   user "root"
-end
-# driver
-mercurial "/usr/local/src/pt1_driver" do
-   repository "http://hg.honeyplanet.jp/pt1/"
-   reference "default"
-   action :sync
-   owner "root"
+# modprobe from template
+template "blacklist.conf" do
+  path "/etc/modprobe.d/blacklist.conf"
+  source "blacklist.conf.erb"
+  owner "root"
+  group "root"
+  mode 0644
 end
 
-bash 'install_pt2' do
+# driver
+git "/usr/local/src/pt3" do
+   repository "https://github.com/m-tsudo/pt3.git"
+   reference "master"
+   action :sync
+   user "root"
+end
+
+bash 'install_driver' do
   user 'root'
 
   code <<-EOC
-    cd /usr/local/src/pt1_driver/driver
-    make clean all
-    make install
-    cd /usr/local/src/libarib25
-    make clean all
-    make install
-    cd /usr/local/src/recpt1/recpt1
+    cd /usr/local/src/pt3
+    make clean && make && sudo make install
+  EOC
+end
+
+bash 'install_pt3' do
+  user 'root'
+
+  code <<-EOC
+    cd /tmp
+    wget http://hg.honeyplanet.jp/pt1/archive/c44e16dbb0e2.zip
+    unzip c44e16dbb0e2.zip
+    cd pt1-c44e16dbb0e2/arib25
+    make clean && make && make install
+     
+    cd /tmp
+    wget http://hg.honeyplanet.jp/pt1/archive/tip.tar.bz2
+     
+    tar -jxvf tip.tar.bz2
+    cd /tmp/pt1-c8688d7d6382/recpt1
+     
+    # PT2/3混在環境の場合にはpt1_dev.hの/dev/pt1video**を
+    # 必要個数、pt3video**のようにPT3用に書き換えます。
+    # PT1/PT2のみの場合には、pt1_dev.hの書き換えの必要は無い。
+     
+    # pt3のみの環境の場合には、sedで一括置換でOKです。
+    sed -i 's/pt1video/pt3video/g' pt1_dev.h
+     
     ./autogen.sh
-    LDFLAGS=-L/usr/local/lib CFLAGS=-I/usr/local/include ./configure --enable-b25
-    make clean all
-    make install
-    modprobe pt1_drv
-    echo "blacklist earth-pt1" >> /etc/modprobe.d/blacklist.conf                         
-    echo "" >> /home/foltia/.bashrc                                                      
-    echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> /home/foltia/.bashrc
+    ./configure --enable-b25 && make && make install
   EOC
 end
